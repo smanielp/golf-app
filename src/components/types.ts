@@ -1,10 +1,4 @@
 // src/components/types.ts
-export type UploadedFile = {
-  file: File;
-  preview: string;
-  type: 'image' | 'video';
-};
-
 export type ProgressionLevel = {
   level: number;
   distance: number;
