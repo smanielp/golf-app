@@ -28,6 +28,12 @@ jobs:
         uses: actions/configure-pages@v4
         with:
           static_site_generator: next
+      - name: Debug Config
+        run: |
+          echo "Contents of next.config.js:"
+          cat next.config.js
+      - name: List Files
+        run: ls -la
       - name: Install dependencies
         run: npm install
       - name: Build with Next.js
