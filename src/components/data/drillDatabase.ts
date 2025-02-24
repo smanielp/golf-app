@@ -30,8 +30,8 @@ export const DRILL_DATABASE: DrillDatabase = {
       name: 'Landing Spot Control',
       type: 'competitive',
       progressionLevels: [
-        { level: 1, distance: 10, targets: 1, attempts: 5, target: 3, description: '3/5 chips within 3 feet of target' },
-        { level: 2, distance: 20, targets: 2, attempts: 5, target: 3, description: '3/5 chips to alternating targets' }
+        { level: 1, distance: 10, target: 3, attempts: 5, description: '3/5 chips within 3 feet of target' },
+        { level: 2, distance: 20, target: 3, attempts: 5, description: '3/5 chips to alternating targets' }
       ],
       instructions: 'Place targets at specified distances, attempt to land chips within target zone',
       setupGuide: {
