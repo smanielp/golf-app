@@ -1,7 +1,6 @@
 // src/components/dashboard/Dashboard.tsx
 import React from 'react';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Calendar, BarChart2 } from 'lucide-react';
 import { ProgressState, Drill } from '../types';
 import DrillList from '../drills/DrillList';
@@ -9,7 +8,6 @@ import DrillList from '../drills/DrillList';
 interface DashboardProps {
   drillProgress: ProgressState;
   onSelectDrill: (drill: Drill) => void;
-  onStartUpload: () => void;
 }
 
 // Sample user profile - would come from backend in a real app
@@ -23,8 +21,7 @@ const USER_PROFILE = {
 
 export const Dashboard: React.FC<DashboardProps> = ({ 
   drillProgress, 
-  onSelectDrill,
-  onStartUpload
+  onSelectDrill
 }) => {
   // Calculate total progress level (sum of all drill levels)
   const totalProgressLevel = Object.values(drillProgress).reduce(
@@ -63,10 +60,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
         </Card>
       </div>
-      
-      <Button className="w-full" onClick={onStartUpload}>
-        Upload Swing Videos
-      </Button>
       
       <DrillList 
         drillProgress={drillProgress} 
