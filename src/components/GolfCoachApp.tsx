@@ -1,15 +1,13 @@
 // src/components/GolfCoachApp.tsx
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import { UploadedFile, Drill, ProgressState } from './types';
+import { Drill, ProgressState } from './types';
 import Dashboard from './dashboard/Dashboard';
 import PracticeSession from './practice/PracticeSession';
-import MediaUploaderView from './media/MediaUploaderView';
 
 export const GolfCoachApp: React.FC = () => {
   // App state
-  const [currentView, setCurrentView] = useState<'dashboard' | 'practice' | 'upload'>('dashboard');
-  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+  const [currentView, setCurrentView] = useState<'dashboard' | 'practice'>('dashboard');
   const [selectedDrill, setSelectedDrill] = useState<Drill | null>(null);
   const [drillProgress, setDrillProgress] = useState<ProgressState>({});
 
@@ -29,27 +27,6 @@ export const GolfCoachApp: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('drillProgress', JSON.stringify(drillProgress));
   }, [drillProgress]);
-
-  // Handle file uploads
-  const handleFilesSelected = (files: File[]) => {
-    const newFiles = files.map(file => ({
-      file,
-      preview: URL.createObjectURL(file),
-      type: file.type.startsWith('image/') ? 'image' : 'video'
-    }));
-    
-    setUploadedFiles(prev => [...prev, ...newFiles]);
-  };
-
-  // Remove a file
-  const removeFile = (index: number) => {
-    setUploadedFiles(prev => {
-      const newFiles = [...prev];
-      URL.revokeObjectURL(newFiles[index].preview);
-      newFiles.splice(index, 1);
-      return newFiles;
-    });
-  };
 
   // Update drill progress
   const updateDrillProgress = (drillId: string, success: boolean) => {
@@ -84,10 +61,6 @@ export const GolfCoachApp: React.FC = () => {
   };
 
   // Navigation handlers
-  const handleStartUpload = () => {
-    setCurrentView('upload');
-  };
-
   const handleSelectDrill = (drill: Drill) => {
     setSelectedDrill(drill);
     setCurrentView('practice');
@@ -108,7 +81,6 @@ export const GolfCoachApp: React.FC = () => {
           <Dashboard 
             drillProgress={drillProgress}
             onSelectDrill={handleSelectDrill}
-            onStartUpload={handleStartUpload}
           />
         )}
         
@@ -117,15 +89,6 @@ export const GolfCoachApp: React.FC = () => {
             drill={selectedDrill}
             onComplete={updateDrillProgress}
             onExit={handlePracticeComplete}
-          />
-        )}
-        
-        {currentView === 'upload' && (
-          <MediaUploaderView 
-            uploadedFiles={uploadedFiles}
-            onFilesSelected={handleFilesSelected}
-            onRemoveFile={removeFile}
-            onDone={() => setCurrentView('dashboard')}
           />
         )}
       </CardContent>
